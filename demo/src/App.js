@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Scheduler from './ReactScheduler';
+import Scheduler from './Scheduler';
 
 var appointments = [{
   id: 0,
