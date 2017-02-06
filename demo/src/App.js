@@ -1,22 +1,23 @@
+// @flow
+
 import React, { Component } from 'react';
 import Scheduler from './Scheduler';
+import Event from './Event';
 
-var appointments = [{
-  id: 0,
-  start: new Date(2017,1,1,10,0,0),
-  end: new Date(2017,1,1,11,0,0),
-},{
-  id: 1,
-  start: new Date(2017,1,1,11,0,0),
-  end: new Date(2017,1,1,11,30,0),
-},{
-  id: 2,
-  start: new Date(2017,1,2,11,0,0),
-  end: new Date(2017,1,2,11,30,0),
-}];
+const itemStyle = {
+  color: 'white',
+  background: '#049BE5',
+  padding: '0 2.5px',
+  cursor: 'pointer',
+  borderRadius: '2px'
+}
 
 class App extends Component {
-  constructor(props) {
+  state: {
+    date: Date
+  }
+
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -27,14 +28,27 @@ class App extends Component {
   render() {
     return (
       <Scheduler
-        appointments={appointments}
         date={this.state.date}
         onDateChange={this.setDate}>
+        <Event 
+          key={0}
+          start={new Date(2017,1,1,10,0,0)}
+          end={new Date(2017,1,1,11,0,0)}
+          style={itemStyle}>
+          Meeting
+        </Event>
+        <Event 
+          key={1}
+          start={new Date(2017,1,1,11,0,0)}
+          end={new Date(2017,1,1,11,30,0)}
+          style={itemStyle}>
+          Lunch
+        </Event>
       </Scheduler>
     );
   }
 
-  setDate = (date) => {
+  setDate = (date: Date) => {
     this.setState({ date: date });
   }
 }

@@ -13,10 +13,6 @@ const referenceDate = new Date(2017,1,1);
 
 type Props = {
 	date: Date,
-	appointments: [{
-		start: Date,
-		end: Date
-	}],
 	onDateChange: (date: Date) => void
 }
 
@@ -60,10 +56,13 @@ class Scheduler extends Component {
 		return (
 			<div key={slide.key} style={{ position: 'relative', height: '100%' }}>
 				<DayView 
-					appointments={this.props.appointments}
 					onScrollChange={this.onScrollChange} 
 					scrollPosition={this.state.scrollPosition}
-					date={date}/>
+					date={date}>
+					{
+						this.props.children
+					}
+				</DayView>
 			</div>
 		);
 	}

@@ -1,9 +1,15 @@
 // @flow
-import type { Appointment } from './types';
-
 import React from 'react';
 import { addDays } from './dateUtils';
 import { every } from './utils';
+
+type Event = {
+	props: {
+		start: Date,
+		end: Date,
+		style?: any
+	}
+}
 
 type Column = {
 	column: number,
@@ -15,31 +21,31 @@ type DayViewItem = {
 	y: number,
 	height: number,
 	width: number,
-	appointment: Appointment		
+	event: Event		
 }
 
 const height = 1700;
 
-function getAppointmentsBetweenDates(appointments, start, end) {
-	return appointments
-		.filter(appointment => appointment.start < end && appointment.end > start);
+function getEventsBetweenDates(events, start, end) {
+	return events
+		.filter(event => event.props.start < end && event.props.end > start);
 }
 
-function getAppointmentColumn(appointment: Appointment, columnsLastDate: Date[]): number {
+function getEventColumn(event: Event, columnsLastDate: Date[]): number {
 	for (let i = 0; i < columnsLastDate.length; i++) {
-		if (appointment.start >= columnsLastDate[i]) {
+		if (event.props.start >= columnsLastDate[i]) {
 			return i;
 		}
 	}
 	return columnsLastDate.length;
 }
 
-function getAppointmentColumns(appointments: Appointment[]) : Column[] {
+function getEventsColumns(events: Event[]) : Column[] {
 	let columnsLastDate = [];
 	const results = [];
 	let nextOverIndex = 0;
 
-	function setOverColumnOnAppointmentGroup(end) {
+	function setOverColumnOnEventGroup(end) {
 		for (let j = nextOverIndex; j < end; j++) {
 			results[j].over = columnsLastDate.length;
 		}
@@ -47,35 +53,35 @@ function getAppointmentColumns(appointments: Appointment[]) : Column[] {
 		nextOverIndex = end;
 	}
 
-	for (let i = 0; i < appointments.length; i++) {
-		const app = appointments[i];
+	for (let i = 0; i < events.length; i++) {
+		const app = events[i];
 		let column;
 
-		if (columnsLastDate.length !== 0 && every(columnsLastDate, d => app.start >= d)) {
-			setOverColumnOnAppointmentGroup(i);
+		if (columnsLastDate.length !== 0 && every(columnsLastDate, d => app.props.start >= d)) {
+			setOverColumnOnEventGroup(i);
 		}
 
-		column = getAppointmentColumn(app, columnsLastDate);
-		columnsLastDate[column] = app.end;
+		column = getEventColumn(app, columnsLastDate);
+		columnsLastDate[column] = app.props.end;
 		results.push({ column: column, over: -1 });
 	}
 
-	setOverColumnOnAppointmentGroup(appointments.length);
+	setOverColumnOnEventGroup(events.length);
 
 	return results;
 }
 
-function appointmentsToDayViewItems(appointments: Appointment[], date: Date) {
-	const sortedAppointments = appointments;
+function eventsToDayViewItems(events: Event[], date: Date) {
+	const sortedEvents = events;
     //.sort((a, b) => a.start.localeCompare(b.start));
-	const appointmentsColumns = getAppointmentColumns(sortedAppointments);
-	return sortedAppointments
-		.map((app, i) => ({
-			x: appointmentsColumns[i].column / appointmentsColumns[i].over,
-			y: ((app.start.getTime() - date.getTime()) / 60000 / 1440),
-			width: (1 / appointmentsColumns[i].over),
-			height: ((app.end.getTime() - app.start.getTime()) / 60000 / 1440),
-			appointment: app
+	const eventsColumn = getEventsColumns(sortedEvents);
+	return sortedEvents
+		.map((event, i) => ({
+			x: eventsColumn[i].column / eventsColumn[i].over,
+			y: ((event.props.start.getTime() - date.getTime()) / 60000 / 1440),
+			width: (1 / eventsColumn[i].over),
+			height: ((event.props.end.getTime() - event.props.start.getTime()) / 60000 / 1440),
+			event: event
 		}));
 }
 
@@ -91,12 +97,20 @@ function isToday(date) {
 var weekDayFormatter = new Intl.DateTimeFormat(window.navigator.language, { weekday: 'short' });
 var dayFormatter = new Intl.DateTimeFormat(window.navigator.language, { day: 'numeric' });
 
+type Props = {
+	date: Date;
+	scrollPosition: number;
+	onScrollChange: (number) => void;
+	children: Event[]
+}
+
 class DayView extends React.Component {
 	scrollViewer: any;
+	props: Props;
 
 	render() {
-		var apps = getAppointmentsBetweenDates(
-			this.props.appointments, 
+		var events = getEventsBetweenDates(
+			this.props.children, 
 			this.props.date, 
 			addDays(this.props.date,1));
 		return (
@@ -112,7 +126,7 @@ class DayView extends React.Component {
 					style={{ height: '100%', position: 'relative', overflowY: 'auto' }}>
 					{
 						renderHours()
-							.concat(this.renderAppointmentsContainer(apps, this.props.date))
+							.concat(this.renderEventsContainer(events, this.props.date))
 					}
 				</div>
 				{
@@ -160,29 +174,28 @@ class DayView extends React.Component {
 		)
 	}
 
-	renderAppointmentsContainer(appointments: Appointment[], date: Date) {
+	renderEventsContainer(events: Event[], date: Date) {
 		return (
 			<div 
-				key="appointmentsContainer" 
+				key="eventsContainer" 
 				style={{ height: height + 'px', position: 'absolute', right: '0px', left: '50px' }}>
 				{ 
 					this
 						.renderHoursDividers()
-						.concat(this.renderAppointementItems(appointments, date)) 
+						.concat(this.renderEventsItems(events, date)) 
 				}
 			</div>
 		);
 	}
 
-	renderAppointementItems = (appointments: Appointment[], date: Date) => {
-		var items = appointmentsToDayViewItems(appointments, date);
+	renderEventsItems = (events: Event[], date: Date) => {
+		var items = eventsToDayViewItems(events, date);
 		return items
-			.map(item =>
-				<div
-					style={this.getDayViewItemStyle(item)}
-					key={item.appointment.id}>
-				</div>
-			);
+			.map(item => {
+				return React.cloneElement(item.event, { 
+					style: Object.assign({}, item.event.props.style, this.getDayViewItemStyle(item))
+				});
+			});
 	}
 
 	getDayViewItemStyle = (item: DayViewItem) => {
@@ -191,12 +204,7 @@ class DayView extends React.Component {
 			width: `calc(${toPercent(item.width)} - 3px)`,
 			top: toPercent(item.y),
 			left: toPercent(item.x),
-			color: 'white',
-			background: '#049BE5',
-			padding: '0 2.5px',
 		 	position: 'absolute',
-		 	cursor: 'pointer',
-			borderRadius: '2px',
 		 	boxSizing: 'border-box',
 			minHeight: '10px'
 		};
