@@ -1,20 +1,12 @@
 import React from 'react';
 import { addDays } from './dateUtils';
+import { every } from './utils';
 
 const height = 1700;
 
 function getAppointmentsBetweenDates(appointments, start, end) {
 	return appointments
 		.filter(appointment => appointment.start < end && appointment.end > start);
-}
-
-function every(array, predicate) {
-	for(var i = 0; i < array.length; i++) {
-		if(!predicate(array[i])) {
-			return false;
-		}
-	}
-	return true;
 }
 
 function getAppointmentColumn(appointment, columnsLastDate) {
@@ -75,21 +67,39 @@ function toPercent(i) {
 	return (i * 100) + '%';
 }
 
-class DayView extends React.Component {
-	shouldComponentUpdate(nextProps, nextState) {
-		return this.props.appointments !== nextProps.appointments
-			|| this.props.date !== nextProps.date;
-	}
+function isToday(date) {
+	var diff = new Date().getTime() - date.getTime();
+	return diff > 0 && diff < (3600 * 1000 * 24);
+}
 
+var weekDayFormatter = new Intl.DateTimeFormat(window.navigator.language, { weekday: 'short' });
+var dayFormatter = new Intl.DateTimeFormat(window.navigator.language, { day: 'numeric' });
+
+class DayView extends React.Component {
+	
 	render() {
 		var apps = getAppointmentsBetweenDates(
 			this.props.appointments, 
 			this.props.date, 
 			addDays(this.props.date,1));
 		return (
-			<div style={{ height: height + 'px', position: 'relative' }}>
+			<div style={{ height: '100%', position: 'relative', overflowY: 'hidden' }}>
+				<div 
+					ref={elem => {
+						if(elem != null) {
+							this.scrollViewer = elem;
+							elem.scrollTop = this.props.scrollPosition;
+						}
+					}}
+					onTouchStart={(e) => setTimeout(() => this.props.onScrollChange(this.scrollViewer.scrollTop),100)}
+					style={{ height: '100%', position: 'relative', overflowY: 'auto' }}>
+					{
+						renderHours()
+							.concat(this.renderAppointmentsContainer(apps, this.props.date))
+					}
+				</div>
 				{
-					renderHours().concat(this.renderAppointmentsContainer(apps, this.props.date))
+					this.renderCurrentDay()
 				}
 			</div>
 		);
@@ -106,6 +116,31 @@ class DayView extends React.Component {
 			);
 		}
 		return dividers;
+	}
+
+	renderCurrentDay() {
+		return (
+			<div style={{ 
+				position: 'absolute', 
+				top: '0px', 
+				left: '0px', 
+				padding: '10px 0 10px 15px',
+				background: 'white',
+				color: isToday(this.props.date) ? '#4285F4' : '#8D8D8D',
+				boxShadow: '0 14px 28px rgba(255,255,255,0.60), 0 10px 10px rgba(255,255,255,0.80)'
+			}}>
+				<div style={{ fontSize: '30px' }}>
+					{
+						dayFormatter.format(this.props.date)
+					}
+				</div>
+				<div>
+					{
+						weekDayFormatter.format(this.props.date)
+					}
+				</div>
+			</div>
+		)
 	}
 
 	renderAppointmentsContainer(appointments, date) {
@@ -171,7 +206,7 @@ function getHourStyle(i) {
 		top: (i * (height / 24) - 10) + 'px',
 		left: '15px',
 		position: 'absolute',
-		color: 'black'
+		color: '#525252'
 	};
 }
 

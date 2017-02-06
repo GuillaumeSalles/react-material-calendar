@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Scheduler from './ReactScheduler';
+import DayView from './DayView';
 
 var appointments = [{
   id: 0,
@@ -29,12 +30,12 @@ class App extends Component {
       <Scheduler
         appointments={appointments}
         date={this.state.date}
-        onDateChange={this.setDate}/>
+        onDateChange={this.setDate}>
+      </Scheduler>
     );
   }
 
   setDate = (date) => {
-    console.log(date);
     this.setState({ date: date });
   }
 }
