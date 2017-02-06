@@ -178,7 +178,7 @@ class DayView extends React.Component {
 		return (
 			<div 
 				key="eventsContainer" 
-				style={{ height: height + 'px', position: 'absolute', right: '0px', left: '50px' }}>
+				style={{ height: height + 'px', position: 'absolute', right: '15px', left: '50px' }}>
 				{ 
 					this
 						.renderHoursDividers()
