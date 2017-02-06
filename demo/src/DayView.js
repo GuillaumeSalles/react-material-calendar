@@ -1,6 +1,22 @@
+// @flow
+import type { Appointment } from './types';
+
 import React from 'react';
 import { addDays } from './dateUtils';
 import { every } from './utils';
+
+type Column = {
+	column: number,
+	over: number
+}
+
+type DayViewItem = {
+	x: number,
+	y: number,
+	height: number,
+	width: number,
+	appointment: Appointment		
+}
 
 const height = 1700;
 
@@ -9,7 +25,7 @@ function getAppointmentsBetweenDates(appointments, start, end) {
 		.filter(appointment => appointment.start < end && appointment.end > start);
 }
 
-function getAppointmentColumn(appointment, columnsLastDate) {
+function getAppointmentColumn(appointment: Appointment, columnsLastDate: Date[]): number {
 	for (let i = 0; i < columnsLastDate.length; i++) {
 		if (appointment.start >= columnsLastDate[i]) {
 			return i;
@@ -18,7 +34,7 @@ function getAppointmentColumn(appointment, columnsLastDate) {
 	return columnsLastDate.length;
 }
 
-function getAppointmentColumns(appointments) {
+function getAppointmentColumns(appointments: Appointment[]) : Column[] {
 	let columnsLastDate = [];
 	const results = [];
 	let nextOverIndex = 0;
@@ -41,7 +57,7 @@ function getAppointmentColumns(appointments) {
 
 		column = getAppointmentColumn(app, columnsLastDate);
 		columnsLastDate[column] = app.end;
-		results.push({ column: column });
+		results.push({ column: column, over: -1 });
 	}
 
 	setOverColumnOnAppointmentGroup(appointments.length);
@@ -49,7 +65,7 @@ function getAppointmentColumns(appointments) {
 	return results;
 }
 
-function appointmentsToDayViewItems(appointments, date, locale) {
+function appointmentsToDayViewItems(appointments: Appointment[], date: Date) {
 	const sortedAppointments = appointments;
     //.sort((a, b) => a.start.localeCompare(b.start));
 	const appointmentsColumns = getAppointmentColumns(sortedAppointments);
@@ -76,7 +92,8 @@ var weekDayFormatter = new Intl.DateTimeFormat(window.navigator.language, { week
 var dayFormatter = new Intl.DateTimeFormat(window.navigator.language, { day: 'numeric' });
 
 class DayView extends React.Component {
-	
+	scrollViewer: any;
+
 	render() {
 		var apps = getAppointmentsBetweenDates(
 			this.props.appointments, 
@@ -143,7 +160,7 @@ class DayView extends React.Component {
 		)
 	}
 
-	renderAppointmentsContainer(appointments, date) {
+	renderAppointmentsContainer(appointments: Appointment[], date: Date) {
 		return (
 			<div 
 				key="appointmentsContainer" 
@@ -157,7 +174,7 @@ class DayView extends React.Component {
 		);
 	}
 
-	renderAppointementItems = (appointments, date) => {
+	renderAppointementItems = (appointments: Appointment[], date: Date) => {
 		var items = appointmentsToDayViewItems(appointments, date);
 		return items
 			.map(item =>
@@ -168,7 +185,7 @@ class DayView extends React.Component {
 			);
 	}
 
-	getDayViewItemStyle = (item) => {
+	getDayViewItemStyle = (item: DayViewItem) => {
 		return {
 			height: `calc(${toPercent(item.height)} - 3px)`,
 			width: `calc(${toPercent(item.width)} - 3px)`,

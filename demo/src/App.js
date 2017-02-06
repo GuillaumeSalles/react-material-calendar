@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Scheduler from './ReactScheduler';
-import DayView from './DayView';
 
 var appointments = [{
   id: 0,

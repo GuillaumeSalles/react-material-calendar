@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 
 import SwipeableViews from 'react-swipeable-views';
@@ -9,8 +11,24 @@ import { addDays, diffDays } from './dateUtils';
 
 const referenceDate = new Date(2017,1,1);
 
+type Props = {
+	date: Date,
+	appointments: [{
+		start: Date,
+		end: Date
+	}],
+	onDateChange: (date: Date) => void
+}
+
+type State = {
+	scrollPosition: number
+}
+
 class Scheduler extends Component {
-	constructor(props) {
+	props: Props;
+	state: State;
+
+	constructor(props: Props) {
 		super(props);
 
 		this.state = {
@@ -33,25 +51,24 @@ class Scheduler extends Component {
 		)
 	}
 
-	onChangeIndex = (index, indexLatest) => {
+	onChangeIndex = (index: number, indexLatest: number) => {
 		this.props.onDateChange(addDays(referenceDate, index));
 	};
 
-	slideRenderer = ({key, index}) => {
-		var date = addDays(referenceDate, index);
+	slideRenderer = (slide: { key: number, index: number }) => {
+		var date = addDays(referenceDate, slide.index);
 		return (
-			<div key={key} style={{ position: 'relative', height: '100%' }}>
+			<div key={slide.key} style={{ position: 'relative', height: '100%' }}>
 				<DayView 
 					appointments={this.props.appointments}
 					onScrollChange={this.onScrollChange} 
 					scrollPosition={this.state.scrollPosition}
-					date={date}
-					dayViewItemFactory={this.props.dayViewItemFactory}/>
+					date={date}/>
 			</div>
 		);
 	}
 
-	onScrollChange = (scrollPosition) => {
+	onScrollChange = (scrollPosition: number) => {
 		this.setState({ scrollPosition: scrollPosition });
 	}
 }
