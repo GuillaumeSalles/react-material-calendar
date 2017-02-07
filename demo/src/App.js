@@ -12,6 +12,14 @@ const itemStyle = {
   borderRadius: '2px'
 }
 
+const itemStyle2 = {
+  color: 'white',
+  background: '#33B679',
+  padding: '0 2.5px',
+  cursor: 'pointer',
+  borderRadius: '2px'
+}
+
 class App extends Component {
   state: {
     date: Date
@@ -43,6 +51,20 @@ class App extends Component {
           end={new Date(2017,1,1,11,30,0)}
           style={itemStyle}>
           Lunch
+        </Event>
+        <Event 
+          key={2}
+          start={new Date(2017,1,2,0,0,0)}
+          end={new Date(2017,1,2,0,30,0)}
+          style={itemStyle}>
+          Sleep
+        </Event>
+        <Event 
+          key={3}
+          start={new Date(2017,1,3,10,0,0)}
+          end={new Date(2017,1,3,14,30,0)}
+          style={itemStyle2}>
+          Photo
         </Event>
       </Scheduler>
     );

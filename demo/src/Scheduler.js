@@ -7,13 +7,15 @@ import { virtualize } from 'react-swipeable-views-utils';
 const VirtualizeSwipeableViews = virtualize(SwipeableViews);
 
 import DayView from './DayView';
+import WeekView from './WeekView';
 import { addDays, diffDays } from './dateUtils';
 
 const referenceDate = new Date(2017,1,1);
 
 type Props = {
 	date: Date,
-	onDateChange: (date: Date) => void
+	onDateChange: (date: Date) => void,
+	mode: 'DAY' | 'WEEK'
 }
 
 type State = {
@@ -41,7 +43,7 @@ class Scheduler extends Component {
 					containerStyle={{ height: '100%' }}
 					index={diffDays(this.props.date, referenceDate)}
 					overscanSlideCount={1}
-					slideRenderer={this.slideRenderer}
+					slideRenderer={this.weekRenderer}
 					onChangeIndex={this.onChangeIndex}/>
 			</div>
 		)
@@ -63,6 +65,20 @@ class Scheduler extends Component {
 						this.props.children
 					}
 				</DayView>
+			</div>
+		);
+	}
+
+	weekRenderer = (slide: { key: number, index: number }) => {
+		var date = addDays(referenceDate, slide.index);
+		return (
+			<div key={slide.key} style={{ position: 'relative', height: '100%' }}>
+				<WeekView 
+					date={date}>
+					{
+						this.props.children
+					}
+				</WeekView>
 			</div>
 		);
 	}
