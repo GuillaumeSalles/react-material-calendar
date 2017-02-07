@@ -74,6 +74,8 @@ class Scheduler extends Component {
 		return (
 			<div key={slide.key} style={{ position: 'relative', height: '100%' }}>
 				<WeekView 
+					onScrollChange={this.onScrollChange} 
+					scrollPosition={this.state.scrollPosition}
 					date={date}>
 					{
 						this.props.children

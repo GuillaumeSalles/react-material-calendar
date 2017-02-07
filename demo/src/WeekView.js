@@ -8,10 +8,13 @@ import renderDayEvents from './DayEvents';
 import DayHeader from './DayHeader';
 
 type Props = {
-  date: Date
+  date: Date,
+	scrollPosition: number;
+	onScrollChange: (number) => void;
 }
 
 class WeekView extends React.Component {
+  scrollViewer: any;
   props: Props;
 
   render() {
@@ -27,7 +30,15 @@ class WeekView extends React.Component {
             this.renderDaysHeader(dates)
           }
         </div>
-        <div style={{ height: '100%', position: 'absolute', left: '0', right: '0', top: '70px', overflowY: 'auto' }}>
+        <div 
+					ref={elem => {
+						if(elem != null) {
+							this.scrollViewer = elem;
+							elem.scrollTop = this.props.scrollPosition;
+						}
+					}}
+					onTouchStart={(e) => setTimeout(() => this.props.onScrollChange(this.scrollViewer.scrollTop),100)}
+          style={{ height: '100%', position: 'absolute', left: '0', right: '0', top: '70px', overflowY: 'auto' }}>
           {
             verticalHours()
           }
