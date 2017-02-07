@@ -8,7 +8,7 @@ const VirtualizeSwipeableViews = virtualize(SwipeableViews);
 
 import DayView from './DayView';
 import WeekView from './WeekView';
-import { addDays, diffDays } from './dateUtils';
+import { addDays, diffDays, addWeeks, diffWeeks } from './dateUtils';
 
 const referenceDate = new Date(2017,1,1);
 
@@ -41,16 +41,36 @@ class Scheduler extends Component {
 					style={{ position: 'relative', height: '100%' }}
 					slideStyle={{ height: '100%' }}
 					containerStyle={{ height: '100%' }}
-					index={diffDays(this.props.date, referenceDate)}
+					index={this.getIndex()}
 					overscanSlideCount={1}
-					slideRenderer={this.weekRenderer}
+					slideRenderer={this.getSlideRenderer()}
 					onChangeIndex={this.onChangeIndex}/>
 			</div>
 		)
 	}
 
-	onChangeIndex = (index: number, indexLatest: number) => {
-		this.props.onDateChange(addDays(referenceDate, index));
+	getIndex = () => {
+		if(this.props.mode === 'DAY') {
+			return diffDays(this.props.date, referenceDate);
+		} else if (this.props.mode === 'WEEK') {
+			return diffWeeks(this.props.date, referenceDate);
+		}
+	}
+
+	getSlideRenderer = () => {
+		if(this.props.mode === 'DAY') {
+			return this.slideRenderer;
+		} else if (this.props.mode === 'WEEK') {
+			return this.weekRenderer;
+		}
+	}
+
+	onChangeIndex = (index: number, indexLatest: number): void => {
+		if(this.props.mode === 'DAY') {
+			this.props.onDateChange(addDays(referenceDate, index));
+		} else if (this.props.mode === 'WEEK') {
+			this.props.onDateChange(addWeeks(referenceDate, index));
+		}
 	};
 
 	slideRenderer = (slide: { key: number, index: number }) => {
@@ -70,7 +90,7 @@ class Scheduler extends Component {
 	}
 
 	weekRenderer = (slide: { key: number, index: number }) => {
-		var date = addDays(referenceDate, slide.index);
+		var date = addWeeks(referenceDate, slide.index);
 		return (
 			<div key={slide.key} style={{ position: 'relative', height: '100%' }}>
 				<WeekView 

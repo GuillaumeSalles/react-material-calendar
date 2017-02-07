@@ -9,7 +9,7 @@
   "dependencies": {
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-swipeable-views": "^0.10.3"
+    "react-swipeable-views": "^0.10.5"
   },
   "scripts": {
     "start": "react-scripts start",

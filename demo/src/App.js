@@ -37,7 +37,8 @@ class App extends Component {
     return (
       <Scheduler
         date={this.state.date}
-        onDateChange={this.setDate}>
+        onDateChange={this.setDate}
+        mode={'DAY'}>
         <Event 
           key={0}
           start={new Date(2017,1,1,10,0,0)}
