@@ -1,9 +1,19 @@
 // @flow
 import React from 'react';
 
-function isToday(date) {
+var previousDayColor = '#8D8D8D';
+var currentDayColor = '#4285F4';
+var futureDayColor = 'black';
+
+//Assume that date have 0min 0sec 0ms
+function getHeaderColor(date: Date): string {
 	var diff = new Date().getTime() - date.getTime();
-	return diff > 0 && diff < (3600 * 1000 * 24);
+  if(diff < 0) {
+    return futureDayColor;
+  } else if (diff > (3600 * 1000 * 24)) {
+    return previousDayColor;
+  }
+  return currentDayColor;
 }
 
 var weekDayFormatter = new Intl.DateTimeFormat(window.navigator.language, { weekday: 'short' });
@@ -16,7 +26,7 @@ type Props = {
 
 const DayHeader = (props: Props) => {
   return (
-    <div style={Object.assign(props.style, { color: isToday(props.date) ? '#4285F4' : '#8D8D8D'})}>
+    <div style={Object.assign(props.style, { color: getHeaderColor(props.date)})}>
       <div style={{ fontSize: '30px' }}>
         {
           dayFormatter.format(props.date)
