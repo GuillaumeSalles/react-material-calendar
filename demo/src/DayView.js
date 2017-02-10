@@ -11,7 +11,8 @@ type Props = {
 	date: Date;
 	scrollPosition: number;
 	onScrollChange: (number) => void;
-	children: Event[]
+	children: Event[],
+	isScrollDisable: boolean
 }
 
 class DayView extends React.Component {
@@ -29,7 +30,7 @@ class DayView extends React.Component {
 						}
 					}}
 					onTouchStart={(e) => setTimeout(() => this.props.onScrollChange(this.scrollViewer.scrollTop),100)}
-					style={{ height: '100%', position: 'relative', overflowY: 'auto' }}>
+					style={{ height: '100%', position: 'relative', overflowY: this.props.isScrollDisable ? 'hidden' : 'auto' }}>
 					{
 						verticalHours()
 							.concat(this.renderEventsContainer(this.props.children, this.props.date))

@@ -19,7 +19,8 @@ type Props = {
 }
 
 type State = {
-	scrollPosition: number
+	scrollPosition: number,
+	isSwiping: boolean
 }
 
 class Scheduler extends Component {
@@ -30,8 +31,16 @@ class Scheduler extends Component {
 		super(props);
 
 		this.state = {
-			scrollPosition: 500
+			scrollPosition: 500,
+			isSwiping: false
 		};
+	}
+
+	shouldComponentUpdate(nextProps: Props, nextState: State) {
+		return nextProps.date.getTime() !== this.props.date.getTime()
+			|| nextProps.mode !== this.props.mode
+			|| nextState.scrollPosition !== this.state.scrollPosition 
+			|| nextState.isSwiping !== this.state.isSwiping;
 	}
 
 	render() {
@@ -44,9 +53,16 @@ class Scheduler extends Component {
 					index={this.getIndex()}
 					overscanSlideCount={1}
 					slideRenderer={this.getSlideRenderer()}
-					onChangeIndex={this.onChangeIndex}/>
+					onChangeIndex={this.onChangeIndex}
+					onSwitching={this.onSwitching}/>
 			</div>
 		)
+	}
+
+	onSwitching = (event, mode) => {
+		this.setState({
+			isSwiping: mode === 'move'
+		});
 	}
 
 	getIndex = () => {
@@ -80,7 +96,8 @@ class Scheduler extends Component {
 				<DayView 
 					onScrollChange={this.onScrollChange} 
 					scrollPosition={this.state.scrollPosition}
-					date={date}>
+					date={date}
+					isScrollDisable={this.state.isSwiping}>
 					{
 						this.props.children
 					}
@@ -96,7 +113,8 @@ class Scheduler extends Component {
 				<WeekView 
 					onScrollChange={this.onScrollChange} 
 					scrollPosition={this.state.scrollPosition}
-					date={date}>
+					date={date}
+					isScrollDisable={this.state.isSwiping}>
 					{
 						this.props.children
 					}

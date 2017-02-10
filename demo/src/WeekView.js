@@ -11,6 +11,7 @@ type Props = {
   date: Date,
 	scrollPosition: number;
 	onScrollChange: (number) => void;
+  isScrollDisable: boolean
 }
 
 class WeekView extends React.Component {
@@ -38,7 +39,7 @@ class WeekView extends React.Component {
 						}
 					}}
 					onTouchStart={(e) => setTimeout(() => this.props.onScrollChange(this.scrollViewer.scrollTop),100)}
-          style={{ height: '100%', position: 'absolute', left: '0', right: '0', top: '70px', overflowY: 'auto' }}>
+          style={{ height: '100%', position: 'absolute', left: '0', right: '0', top: '70px', overflowY: this.props.isScrollDisable ? 'hidden' : 'auto' }}>
           {
             verticalHours()
           }
