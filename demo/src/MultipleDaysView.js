@@ -20,7 +20,7 @@ class MultipleDaysView extends React.Component {
 
   render() {
     return (
-      <div style={{ height: '100%', position: 'relative', overflowY: 'hidden' }}>
+      <div style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
         <div style={{ height: '70px', position: 'absolute', right: '0', left: '50px', top: '0' }}>
           {
             this.renderDaysHeader(this.props.dates)

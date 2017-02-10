@@ -88,7 +88,7 @@ class Scheduler extends Component {
 	slideRenderer = (slide: { key: number, index: number }) => {
 		if(this.props.mode === 'day') {
 			return (
-				<div key={slide.key} style={{ position: 'relative', height: '100%' }}>
+				<div key={slide.key} style={{ position: 'relative', height: '100%', width: '100%' }}>
 					<DayView 
 						onScrollChange={this.onScrollChange} 
 						scrollPosition={this.state.scrollPosition}
@@ -103,7 +103,7 @@ class Scheduler extends Component {
 		}
 
 		return (
-			<div key={slide.key} style={{ position: 'relative', height: '100%' }}>
+			<div key={slide.key} style={{ position: 'relative', height: '100%', width: '100%' }}>
 				<MultipleDaysView 
 					onScrollChange={this.onScrollChange} 
 					scrollPosition={this.state.scrollPosition}
