@@ -24,8 +24,6 @@ type DayViewItem = {
 	event: Event		
 }
 
-var height = 1700;
-
 function getEventsBetweenDates(events, start, end) {
 	return events
 		.filter(event => event.props.start < end && event.props.end > start);
@@ -91,8 +89,8 @@ function toPercent(i) {
 
 function getHourDividerStyle(hour) {
 	return {
-		height: height / 24,
-		top: hour * (height / 24),
+		height: (100 / 24) + '%',
+		top: (hour * (100 / 24)) + '%',
 		right: '0px',
 		left: '0px',
 		position: 'absolute',

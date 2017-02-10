@@ -31,9 +31,13 @@ class DayView extends React.Component {
 					}}
 					onTouchStart={(e) => setTimeout(() => this.props.onScrollChange(this.scrollViewer.scrollTop),100)}
 					style={{ height: '100%', position: 'relative', overflowY: this.props.isScrollDisable ? 'hidden' : 'auto' }}>
+					<div style={{ position: 'absolute', height: height + 'px'}}>
+						{
+							verticalHours()
+						}
+					</div>
 					{
-						verticalHours()
-							.concat(this.renderEventsContainer(this.props.children, this.props.date))
+						this.renderEventsContainer(this.props.children, this.props.date)
 					}
 				</div>
 				<DayHeader 

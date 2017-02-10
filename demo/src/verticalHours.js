@@ -2,12 +2,10 @@
 
 import React from 'react';
 
-const height = 1700;
-
 function getHourStyle(i) {
 	return {
-		height: (height / 24) + 'px',
-		top: (i * (height / 24) - 10) + 'px',
+		height: `${100 / 24}%`,
+		top: `calc(${(100 / 24) * i}% - 10px)`,
 		left: '15px',
 		position: 'absolute',
 		color: '#525252'

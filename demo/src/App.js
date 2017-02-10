@@ -29,7 +29,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      date: new Date(2017,1,1)
+      date: new Date(2017,1,10)
     };
   }
 

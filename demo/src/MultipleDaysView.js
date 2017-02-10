@@ -35,17 +35,20 @@ class MultipleDaysView extends React.Component {
 					}}
 					onTouchStart={(e) => setTimeout(() => this.props.onScrollChange(this.scrollViewer.scrollTop),100)}
           style={{ 
-            height: '100%',
+            height: 'calc(100% - 70px)',
             position: 'absolute', 
             left: '0', 
             right: '0', 
             top: '70px', 
+            bottom: '0',
             overflowY: this.props.isScrollDisable ? 'hidden' : 'auto',
             overflowX: 'hidden'
           }}>
-          {
-            verticalHours()
-          }
+          <div style={{ height: '1700px', position: 'absolute', left: '0', top: '0' }}>
+            {
+              verticalHours()
+            }
+          </div>
           <div style={{ height: '1700px', position: 'absolute', right: '0', left: '50px', top: '0' }}>
             {
               this.renderDays(this.props.dates)
