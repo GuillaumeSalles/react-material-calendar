@@ -8,27 +8,22 @@ import renderDayEvents from './DayEvents';
 import DayHeader from './DayHeader';
 
 type Props = {
-  date: Date,
+  dates: Date[],
 	scrollPosition: number;
 	onScrollChange: (number) => void;
   isScrollDisable: boolean
 }
 
-class WeekView extends React.Component {
+class MultipleDaysView extends React.Component {
   scrollViewer: any;
   props: Props;
 
   render() {
-    var dates = [];
-    for(var i = 0; i < 7; i++) {
-      dates.push(addDays(this.props.date, i - this.props.date.getDay()));
-    }
-
     return (
       <div style={{ height: '100%', position: 'relative', overflowY: 'hidden' }}>
         <div style={{ height: '70px', position: 'absolute', right: '0', left: '50px', top: '0' }}>
           {
-            this.renderDaysHeader(dates)
+            this.renderDaysHeader(this.props.dates)
           }
         </div>
         <div 
@@ -39,13 +34,21 @@ class WeekView extends React.Component {
 						}
 					}}
 					onTouchStart={(e) => setTimeout(() => this.props.onScrollChange(this.scrollViewer.scrollTop),100)}
-          style={{ height: '100%', position: 'absolute', left: '0', right: '0', top: '70px', overflowY: this.props.isScrollDisable ? 'hidden' : 'auto' }}>
+          style={{ 
+            height: '100%',
+            position: 'absolute', 
+            left: '0', 
+            right: '0', 
+            top: '70px', 
+            overflowY: this.props.isScrollDisable ? 'hidden' : 'auto',
+            overflowX: 'hidden'
+          }}>
           {
             verticalHours()
           }
           <div style={{ height: '1700px', position: 'absolute', right: '0', left: '50px', top: '0' }}>
             {
-              this.renderDays(dates)
+              this.renderDays(this.props.dates)
             }
           </div>
         </div>
@@ -59,8 +62,8 @@ class WeekView extends React.Component {
         key={i}
         style={{ 
           position: 'absolute',
-          left: `${(100 / 7) * i}%`,
-          width: `${100 / 7}%`,
+          left: `${(100 / this.props.dates.length) * i}%`,
+          width: `${100 / this.props.dates.length}%`,
           height: '70px',
           borderLeft: 'solid 1px #E0E0E0',
           borderBottom: 'solid 1px #E0E0E0',
@@ -77,8 +80,8 @@ class WeekView extends React.Component {
         style={{ 
           position: 'absolute',
           height: '100%', 
-          left: `${(100 / 7) * i}%`,
-          width: `${100 / 7}%`,
+          left: `${(100 / this.props.dates.length) * i}%`,
+          width: `${100 / this.props.dates.length}%`,
           borderLeft: 'solid 1px #E0E0E0'
         }}>
         {
@@ -89,4 +92,4 @@ class WeekView extends React.Component {
   }
 }
 
-export default WeekView;
+export default MultipleDaysView;

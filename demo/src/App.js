@@ -38,32 +38,32 @@ class App extends Component {
       <Scheduler
         date={this.state.date}
         onDateChange={this.setDate}
-        mode={'DAY'}>
+        mode={'3days'}>
         <Event 
           key={0}
-          start={new Date(2017,1,1,10,0,0)}
-          end={new Date(2017,1,1,11,0,0)}
+          start={new Date(2017,1,10,10,0,0)}
+          end={new Date(2017,1,10,11,0,0)}
           style={itemStyle}>
           Meeting
         </Event>
         <Event 
           key={1}
-          start={new Date(2017,1,1,11,0,0)}
-          end={new Date(2017,1,1,11,30,0)}
+          start={new Date(2017,1,10,11,0,0)}
+          end={new Date(2017,1,10,11,30,0)}
           style={itemStyle}>
           Lunch
         </Event>
         <Event 
           key={2}
-          start={new Date(2017,1,2,0,0,0)}
-          end={new Date(2017,1,2,0,30,0)}
+          start={new Date(2017,1,11,0,0,0)}
+          end={new Date(2017,1,11,0,30,0)}
           style={itemStyle}>
           Sleep
         </Event>
         <Event 
           key={3}
-          start={new Date(2017,1,3,10,0,0)}
-          end={new Date(2017,1,3,14,30,0)}
+          start={new Date(2017,1,12,10,0,0)}
+          end={new Date(2017,1,12,14,30,0)}
           style={itemStyle2}>
           Photo
         </Event>
