@@ -8,7 +8,7 @@ const VirtualizeSwipeableViews = virtualize(SwipeableViews);
 
 import DayView from './DayView';
 import MultipleDaysView from './MultipleDaysView';
-import { addDays, diffDays, addWeeks, diffWeeks } from './dateUtils';
+import { addDays, diffDays, startOfDay } from './dateUtils';
 
 const referenceDate = new Date(2017,1,1);
 
@@ -26,6 +26,12 @@ type State = {
 		start: Date,
 		end: Date
 	}
+}
+
+var modeNbOfDaysMap = {
+	day: 1,
+	'3days': 3,
+	week: 7
 }
 
 class Scheduler extends Component {
@@ -52,17 +58,15 @@ class Scheduler extends Component {
 
 	render() {
 		return (
-			<div style={{ position: 'relative', width: '100%', height: '100%' }}>
-				<VirtualizeSwipeableViews
-					style={{ position: 'relative', height: '100%' }}
-					slideStyle={{ height: '100%' }}
-					containerStyle={{ height: '100%', willChange: 'transform' }}
-					index={this.getIndex()}
-					overscanSlideCount={1}
-					slideRenderer={this.slideRenderer}
-					onChangeIndex={this.onChangeIndex}
-					onSwitching={this.onSwitching}/>
-			</div>
+			<VirtualizeSwipeableViews
+				style={{ position: 'relative', height: '100%', width: '100%' }}
+				slideStyle={{ height: '100%' }}
+				containerStyle={{ height: '100%', willChange: 'transform' }}
+				index={this.getIndex()}
+				overscanSlideCount={1}
+				slideRenderer={this.slideRenderer}
+				onChangeIndex={this.onChangeIndex}
+				onSwitching={this.onSwitching}/>
 		)
 	}
 
@@ -72,25 +76,11 @@ class Scheduler extends Component {
 		});
 	}
 
-	getIndex = () => {
-		if(this.props.mode === 'day') {
-			return diffDays(this.props.date, referenceDate);
-		} else if (this.props.mode === 'week') {
-			return diffWeeks(this.props.date, referenceDate);
-		} else if (this.props.mode === '3days') {
-			return diffDays(this.props.date, referenceDate) / 3;
-		}
-	}
+	getIndex = () => diffDays(startOfDay(this.props.date), referenceDate) / modeNbOfDaysMap[this.props.mode];
 
-	onChangeIndex = (index: number, indexLatest: number): void => {
-		if(this.props.mode === 'day') {
-			this.props.onDateChange(addDays(referenceDate, index));
-		} else if (this.props.mode === 'week') {
-			this.props.onDateChange(addWeeks(referenceDate, index));
-		} else if (this.props.mode === '3days') {
-			this.props.onDateChange(addDays(referenceDate, index * 3));
-		}
-	};
+	onChangeIndex = (index: number, indexLatest: number) => {
+		return this.props.onDateChange(addDays(referenceDate, index * modeNbOfDaysMap[this.props.mode]));
+	}
 
 	slideRenderer = (slide: { key: number, index: number }) => {
 		if(this.props.mode === 'day') {

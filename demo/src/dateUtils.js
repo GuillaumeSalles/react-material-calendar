@@ -8,10 +8,6 @@ export function diffDays(a: Date, b: Date): number {
 	return (a.getTime() - b.getTime()) / 1000 / 3600 / 24;
 }
 
-export function addWeeks(date: Date, nbOfWeeks: number): Date {
-	return addDays(date, nbOfWeeks * 7);
-}
-
-export function diffWeeks(a: Date, b: Date): number {
-	return diffDays(a, b) / 7;
+export function startOfDay(date: Date): Date {
+	return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }

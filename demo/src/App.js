@@ -29,7 +29,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      date: new Date(2017,1,10)
+      date: new Date(2017,1,10,10)
     };
   }
 
@@ -41,13 +41,6 @@ class App extends Component {
         onCreateEvent={(start,end) => console.log(start.toISOString() + end.toISOString())}
         mode={'3days'}>
         <Event 
-          key={1}
-          start={new Date(2017,1,10,11,0,0)}
-          end={new Date(2017,1,10,11,30,0)}
-          style={itemStyle}>
-          Lunch
-        </Event>
-        <Event 
           key={0}
           start={new Date(2017,1,10,10,0,0)}
           end={new Date(2017,1,10,11,0,0)}
@@ -55,11 +48,11 @@ class App extends Component {
           Meeting
         </Event>
         <Event 
-          key={2}
-          start={new Date(2017,1,11,0,0,0)}
-          end={new Date(2017,1,11,0,30,0)}
+          key={1}
+          start={new Date(2017,1,10,11,0,0)}
+          end={new Date(2017,1,10,11,30,0)}
           style={itemStyle}>
-          Sleep
+          Lunch
         </Event>
         <Event 
           key={3}
