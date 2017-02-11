@@ -38,6 +38,7 @@ class App extends Component {
       <Scheduler
         date={this.state.date}
         onDateChange={this.setDate}
+        onCreateEvent={(start,end) => console.log(start.toISOString() + end.toISOString())}
         mode={'3days'}>
         <Event 
           key={1}

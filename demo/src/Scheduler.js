@@ -15,12 +15,17 @@ const referenceDate = new Date(2017,1,1);
 type Props = {
 	date: Date,
 	onDateChange: (date: Date) => void,
-	mode: 'day' | 'week' | '3days'
+	mode: 'day' | 'week' | '3days',
+	onCreateEvent?: (start: Date, end: Date) => void
 }
 
 type State = {
 	scrollPosition: number,
-	isSwiping: boolean
+	isSwiping: boolean,
+	newEvent: ?{
+		start: Date,
+		end: Date
+	}
 }
 
 class Scheduler extends Component {
@@ -32,7 +37,8 @@ class Scheduler extends Component {
 
 		this.state = {
 			scrollPosition: 500,
-			isSwiping: false
+			isSwiping: false,
+			newEvent: null
 		};
 	}
 
@@ -40,7 +46,8 @@ class Scheduler extends Component {
 		return nextProps.date.getTime() !== this.props.date.getTime()
 			|| nextProps.mode !== this.props.mode
 			|| nextState.scrollPosition !== this.state.scrollPosition 
-			|| nextState.isSwiping !== this.state.isSwiping;
+			|| nextState.isSwiping !== this.state.isSwiping
+			|| nextState.newEvent !== this.state.newEvent;
 	}
 
 	render() {
@@ -49,7 +56,7 @@ class Scheduler extends Component {
 				<VirtualizeSwipeableViews
 					style={{ position: 'relative', height: '100%' }}
 					slideStyle={{ height: '100%' }}
-					containerStyle={{ height: '100%' }}
+					containerStyle={{ height: '100%', willChange: 'transform' }}
 					index={this.getIndex()}
 					overscanSlideCount={1}
 					slideRenderer={this.slideRenderer}
@@ -59,7 +66,7 @@ class Scheduler extends Component {
 		)
 	}
 
-	onSwitching = (event, mode) => {
+	onSwitching = (event: any, mode: 'move' | 'end') => {
 		this.setState({
 			isSwiping: mode === 'move'
 		});
@@ -93,7 +100,10 @@ class Scheduler extends Component {
 						onScrollChange={this.onScrollChange} 
 						scrollPosition={this.state.scrollPosition}
 						date={addDays(referenceDate, slide.index)}
-						isScrollDisable={this.state.isSwiping}>
+						isScrollDisable={this.state.isSwiping}
+						onHourDividerClick={this.onSchedulerClick}
+						newEvent={this.state.newEvent}
+						onCreateEvent={this.onCreateEvent}>
 						{
 							this.props.children
 						}
@@ -108,7 +118,10 @@ class Scheduler extends Component {
 					onScrollChange={this.onScrollChange} 
 					scrollPosition={this.state.scrollPosition}
 					dates={this.props.mode === 'week' ? this.getWeekDates(slide.index) : this.getThreeDaysDates(slide.index)}
-					isScrollDisable={this.state.isSwiping}>
+					isScrollDisable={this.state.isSwiping}
+					onHourDividerClick={this.onSchedulerClick}
+					newEvent={this.state.newEvent}
+					onCreateEvent={this.onCreateEvent}>
 					{
 						this.props.children
 					}
@@ -137,6 +150,21 @@ class Scheduler extends Component {
 
 	onScrollChange = (scrollPosition: number) => {
 		this.setState({ scrollPosition: scrollPosition });
+	}
+
+	onSchedulerClick = (start: Date, end: Date) => {
+		if(this.props.onCreateEvent != null) {
+			this.setState({ newEvent : { start: start, end: end }});
+		}
+	}
+
+	onCreateEvent = () => {
+		if(this.props.onCreateEvent != null && this.state.newEvent != null) {
+			this.props.onCreateEvent(this.state.newEvent.start, this.state.newEvent.end);
+			this.setState({ 
+				newEvent: null
+			});
+		}
 	}
 }
 

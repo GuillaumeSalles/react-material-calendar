@@ -2,8 +2,6 @@
 
 import React from 'react';
 import verticalHours from './verticalHours';
-import DayView from './DayView';
-import { addDays } from './dateUtils';
 import renderDayEvents from './DayEvents';
 import DayHeader from './DayHeader';
 
@@ -11,7 +9,13 @@ type Props = {
   dates: Date[],
 	scrollPosition: number;
 	onScrollChange: (number) => void;
-  isScrollDisable: boolean
+  isScrollDisable: boolean,
+	onHourDividerClick: (start: Date, end: Date) => void,
+	onCreateEvent: () => void,
+	newEvent: ?{
+		start: Date,
+		end: Date
+	}
 }
 
 class MultipleDaysView extends React.Component {
@@ -88,7 +92,13 @@ class MultipleDaysView extends React.Component {
           borderLeft: 'solid 1px #E0E0E0'
         }}>
         {
-          renderDayEvents(this.props.children, date)
+					renderDayEvents({ 
+						events: this.props.children, 
+						date: date, 
+						newEvent: this.props.newEvent, 
+						onHourDividerClick: this.props.onHourDividerClick,
+						onCreateEvent: this.props.onCreateEvent
+					})
         }
       </div>
     ));

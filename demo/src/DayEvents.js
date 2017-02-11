@@ -100,12 +100,23 @@ function getHourDividerStyle(hour) {
 	};
 }
 
-function renderHoursDividers() {
+function handleHourDividerClick(date:Date, hour: number, onHourDividerClick) {
+	return function() {
+		var start = new Date(date.getTime());
+		start.setHours(hour);
+		var end = new Date(date.getTime());
+		end.setHours(hour + 1);
+		onHourDividerClick(start, end);
+	}
+}
+
+function renderHoursDividers(date: Date, onHourDividerClick: (start: Date, end: Date) => void) {
   var dividers = [];
   for(var i = 0; i < 24; i++) {
     dividers.push(
       <div 
         key={i + 'divider'} 
+				onClick={handleHourDividerClick(date,i,onHourDividerClick)}
         style={getHourDividerStyle(i)}>
       </div>
     );
@@ -135,9 +146,53 @@ function getDayViewItemStyle(item: DayViewItem) {
   };
 }
 
-export default function(events: Event[], date: Date) {
+function renderNewEvent(date: Date, newEvent, onCreateEvent: () => void) {
+	if(newEvent == null || newEvent.start >= addDays(date,1) || newEvent.end <= date) {
+		return [];
+	}
+
   return (
-    renderHoursDividers()
-      .concat(renderEventsItems(events, date)) 
-  );
+		<div 
+			key={'newEvent'}
+			style={{
+				width: '100%',
+				height: toPercent((newEvent.end.getTime() - newEvent.start.getTime()) / 60000 / 1440),
+				top: toPercent((newEvent.start.getTime() - date.getTime()) / 60000 / 1440),
+				left: '0',
+				position: 'absolute',
+				boxSizing: 'border-box',
+				background: '#049BE5',
+				color: 'white',
+				fontSize: '20px'
+			}}
+			onClick={onCreateEvent}>
+			<div style={{
+				position: 'absolute',
+				top: '50%',
+				left: '50%',
+				transform: 'translate(-50%, -50%)'
+				}}>
+				+
+			</div>
+		</div>
+	);
 }
+
+type Props = {
+	events: Event[], 
+	date: Date, 
+	newEvent: ?{
+		start: Date,
+		end: Date	
+	},
+	onHourDividerClick: (start: Date, end: Date) => void,
+	onCreateEvent: () => void,
+}
+
+var DayEvents = (props: Props) => {
+	return renderHoursDividers(props.date, props.onHourDividerClick)
+		.concat(renderEventsItems(props.events, props.date))
+		.concat(renderNewEvent(props.date, props.newEvent, props.onCreateEvent));
+}
+
+export default DayEvents;
