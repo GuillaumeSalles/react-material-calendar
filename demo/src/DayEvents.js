@@ -70,8 +70,7 @@ function getEventsColumns(events: Event[]) : Column[] {
 }
 
 function eventsToDayViewItems(events: Event[], date: Date) {
-	const sortedEvents = events;
-    //.sort((a, b) => a.start.localeCompare(b.start));
+	const sortedEvents = events.sort((a, b) => a.props.start.getTime() - b.props.start.getTime());
 	const eventsColumn = getEventsColumns(sortedEvents);
 	return sortedEvents
 		.map((event, i) => ({

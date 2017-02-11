@@ -40,18 +40,18 @@ class App extends Component {
         onDateChange={this.setDate}
         mode={'3days'}>
         <Event 
-          key={0}
-          start={new Date(2017,1,10,10,0,0)}
-          end={new Date(2017,1,10,11,0,0)}
-          style={itemStyle}>
-          Meeting
-        </Event>
-        <Event 
           key={1}
           start={new Date(2017,1,10,11,0,0)}
           end={new Date(2017,1,10,11,30,0)}
           style={itemStyle}>
           Lunch
+        </Event>
+        <Event 
+          key={0}
+          start={new Date(2017,1,10,10,0,0)}
+          end={new Date(2017,1,10,11,0,0)}
+          style={itemStyle}>
+          Meeting
         </Event>
         <Event 
           key={2}
