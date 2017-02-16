@@ -136,8 +136,8 @@ function renderEventsItems(events: Event[], date:Date) {
 
 function getDayViewItemStyle(item: DayViewItem) {
   return {
-    height: `calc(${toPercent(item.height)} - 3px)`,
-    width: `calc(${toPercent(item.width)} - 3px)`,
+    height: `calc(${toPercent(item.height)} - 5px)`,
+    width: `calc(${toPercent(item.width)} - 5px)`,
     top: toPercent(item.y),
     left: toPercent(item.x),
     position: 'absolute',

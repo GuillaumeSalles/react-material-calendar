@@ -1672,9 +1672,9 @@ dom-converter@~0.1:
   dependencies:
     utila "~0.3"
 
-dom-helpers@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.2.0.tgz#70af056e6b1507a71084abc1aac0f93a23f7ea1c"
+dom-helpers@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.2.1.tgz#3203e07fed217bd1f424b019735582fc37b2825a"
 
 dom-serializer@0:
   version "0.1.0"
@@ -4321,6 +4321,11 @@ react-event-listener@^0.4.0:
     react-addons-shallow-compare "^15.4.2"
     warning "^3.0.0"
 
+"react-scheduler@file:./../":
+  version "0.1.0"
+  dependencies:
+    react-swipeable-views "^0.10.5"
+
 react-scripts:
   version "0.8.5"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-0.8.5.tgz#5dc154617be7addef5022c261b96b3e3068418cb"
@@ -4370,16 +4375,6 @@ react-scripts:
   optionalDependencies:
     fsevents "1.0.14"
 
-react-swipeable-views:
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.10.3.tgz#279d3e7ca0ed08c2e4c2cd143f87782359d37b0b"
-  dependencies:
-    babel-runtime "^6.11.6"
-    dom-helpers "^3.2.0"
-    react-swipeable-views-core "^0.10.1"
-    react-swipeable-views-utils "^0.10.1"
-    warning "^3.0.0"
-
 react-swipeable-views-core@^0.10.1:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.10.1.tgz#aadb91640193679f931274eba483775f6d136e2d"
@@ -4396,6 +4391,16 @@ react-swipeable-views-utils@^0.10.1:
     react-addons-shallow-compare "^15.4.1"
     react-event-listener "^0.4.0"
     react-swipeable-views-core "^0.10.1"
+
+react-swipeable-views@^0.10.5:
+  version "0.10.7"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.10.7.tgz#f2f0e44c75f18fbfda4b0a66d42ca934f706c5b2"
+  dependencies:
+    babel-runtime "^6.11.6"
+    dom-helpers "^3.2.1"
+    react-swipeable-views-core "^0.10.1"
+    react-swipeable-views-utils "^0.10.1"
+    warning "^3.0.0"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"

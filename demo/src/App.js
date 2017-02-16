@@ -1,8 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import Scheduler from './Scheduler';
-import Event from './Event';
+import { Scheduler, Event } from '../src/';
 
 const itemStyle = {
   color: 'white',
@@ -13,6 +12,14 @@ const itemStyle = {
 }
 
 const itemStyle2 = {
+  color: 'white',
+  background: '#33B679',
+  padding: '0 2.5px',
+  cursor: 'pointer',
+  borderRadius: '2px'
+}
+
+const itemStyle3 = {
   color: 'white',
   background: '#33B679',
   padding: '0 2.5px',
@@ -55,11 +62,18 @@ class App extends Component {
           Lunch
         </Event>
         <Event 
-          key={3}
+          key={2}
           start={new Date(2017,1,12,10,0,0)}
           end={new Date(2017,1,12,14,30,0)}
           style={itemStyle2}>
           Photo
+        </Event>
+        <Event 
+          key={3}
+          start={new Date(2017,1,11,12,0,0)}
+          end={new Date(2017,1,11,13,30,0)}
+          style={itemStyle3}>
+          Picnic with Marion
         </Event>
       </Scheduler>
     );
