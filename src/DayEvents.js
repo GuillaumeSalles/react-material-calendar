@@ -24,6 +24,8 @@ type DayViewItem = {
 	event: Event		
 }
 
+const msInDay = 1000 * 60 * 60 * 24;
+
 function getEventsBetweenDates(events, start, end) {
 	return events
 		.filter(event => event.props.start < end && event.props.end > start);
@@ -69,15 +71,32 @@ function getEventsColumns(events: Event[]) : Column[] {
 	return results;
 }
 
+function getEventItemY(event: Event, date: Date) {
+	if(event.props.start < date) {
+		return 0;
+	}
+
+	return ((event.props.start.getTime() - date.getTime()) / msInDay);
+}
+
+function getEventItemHeight(event: Event, date: Date) {
+	var maxedDate = event.props.end.getTime() > (date.getTime() + msInDay) ?
+		date.getTime() + msInDay :
+		event.props.end.getTime();
+
+	var minDate = event.props.start < date ? date.getTime() : event.props.start.getTime();
+	return (maxedDate - minDate) / msInDay;
+}
+
 function eventsToDayViewItems(events: Event[], date: Date) {
 	const sortedEvents = events.sort((a, b) => a.props.start.getTime() - b.props.start.getTime());
 	const eventsColumn = getEventsColumns(sortedEvents);
 	return sortedEvents
 		.map((event, i) => ({
 			x: eventsColumn[i].column / eventsColumn[i].over,
-			y: ((event.props.start.getTime() - date.getTime()) / 60000 / 1440),
+			y: getEventItemY(event, date),
 			width: (1 / eventsColumn[i].over),
-			height: ((event.props.end.getTime() - event.props.start.getTime()) / 60000 / 1440),
+			height: getEventItemHeight(event, date),
 			event: event
 		}));
 }
