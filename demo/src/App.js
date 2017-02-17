@@ -49,7 +49,7 @@ class App extends Component {
         date={this.state.date}
         onDateChange={this.setDate}
         onCreateEvent={(start,end) => console.log(start.toISOString() + end.toISOString())}
-        mode={'3days'}>
+        mode={'day'}>
         <Event 
           key={0}
           start={new Date(2017,1,10,10,0,0)}

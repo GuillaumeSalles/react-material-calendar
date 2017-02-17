@@ -13,9 +13,9 @@ import { addDays, diffDays, startOfDay } from './dateUtils';
 const referenceDate = new Date(2017,1,1);
 
 type Props = {
-	date: Date,
-	onDateChange: (date: Date) => void,
-	mode: 'day' | 'week' | '3days',
+	date?: Date,
+	onDateChange?: (date: Date) => void,
+	mode?: 'day' | 'week' | '3days',
 	onCreateEvent?: (start: Date, end: Date) => void
 }
 
@@ -34,22 +34,35 @@ var modeNbOfDaysMap = {
 	week: 7
 }
 
+function getTimeOrDefault(date: ?Date): number {
+	return date == null ? 0 : date.getTime();
+}
+
 class Scheduler extends Component {
 	props: Props;
+	static propTypes = {
+		date: React.PropTypes.instanceOf(Date),
+		onDateChange: React.PropTypes.func,
+		mode: React.PropTypes.string,
+		onCreateEvent: React.PropTypes.func,
+	}
 	state: State;
+
+	unControlledDate: Date;
 
 	constructor(props: Props) {
 		super(props);
 
+		this.unControlledDate= new Date();
 		this.state = {
 			scrollPosition: 500,
 			isSwiping: false,
-			newEvent: null
+			newEvent: null,
 		};
 	}
 
 	shouldComponentUpdate(nextProps: Props, nextState: State) {
-		return nextProps.date.getTime() !== this.props.date.getTime()
+		return getTimeOrDefault(nextProps.date) !== getTimeOrDefault(this.props.date)
 			|| nextProps.mode !== this.props.mode
 			|| nextState.scrollPosition !== this.state.scrollPosition 
 			|| nextState.isSwiping !== this.state.isSwiping
@@ -57,6 +70,7 @@ class Scheduler extends Component {
 	}
 
 	render() {
+		console.log(this.state);
 		return (
 			<VirtualizeSwipeableViews
 				style={{ position: 'relative', height: '100%', width: '100%' }}
@@ -70,16 +84,28 @@ class Scheduler extends Component {
 		)
 	}
 
-	onSwitching = (event: any, mode: 'move' | 'end') => {
+	onSwitching = (index: number, mode: 'move' | 'end') => {
 		this.setState({
 			isSwiping: mode === 'move'
 		});
 	}
 
-	getIndex = () => diffDays(startOfDay(this.props.date), referenceDate) / modeNbOfDaysMap[this.props.mode];
+	getDate = () => {
+		return this.props.date != null ? this.props.date : this.unControlledDate;
+	}
+
+	getMode = () => this.props.mode == null ? 'day' : this.props.mode;
+
+	getIndex = () => {
+		return diffDays(startOfDay(this.getDate()), referenceDate) / modeNbOfDaysMap[this.getMode()];
+	}
 
 	onChangeIndex = (index: number, indexLatest: number) => {
-		return this.props.onDateChange(addDays(referenceDate, index * modeNbOfDaysMap[this.props.mode]));
+		var date = addDays(referenceDate, index * modeNbOfDaysMap[this.getMode()]);
+		this.unControlledDate = date;
+		if(this.props.onDateChange != null) {
+			this.props.onDateChange(date);
+		}
 	}
 
 	slideRenderer = (slide: { key: number, index: number }) => {
@@ -156,6 +182,11 @@ class Scheduler extends Component {
 			});
 		}
 	}
+}
+
+Scheduler.propTypes = {
+	date: React.PropTypes.instanceOf(Date),
+
 }
 
 export default Scheduler;
