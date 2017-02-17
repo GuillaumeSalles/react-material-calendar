@@ -25,6 +25,8 @@ class MultipleDaysView extends React.Component {
   render() {
     return (
       <div style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ height: '70px', position: 'absolute', left: '0', top: '0', width: '50px', borderBottom: 'solid 1px #F3F3F3' }}>
+        </div>
         <div style={{ height: '70px', position: 'absolute', right: '0', left: '50px', top: '0' }}>
           {
             this.renderDaysHeader(this.props.dates)
@@ -48,7 +50,7 @@ class MultipleDaysView extends React.Component {
             overflowY: this.props.isScrollDisable ? 'hidden' : 'auto',
             overflowX: 'hidden'
           }}>
-          <div style={{ height: '1700px', position: 'absolute', left: '0', top: '0' }}>
+          <div style={{ height: '1700px', position: 'absolute', left: '0', top: '0', borderTop: '1px solid #F3F3F3' }}>
             {
               verticalHours()
             }
