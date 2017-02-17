@@ -93,7 +93,7 @@ function getHourDividerStyle(hour) {
 		right: '0px',
 		left: '0px',
 		position: 'absolute',
-		borderBottomColor: '#E0E0E0',
+		borderBottomColor: '#F3F3F3',
 		borderBottomWidth: '1px',
 		borderBottomStyle: 'solid',
 		boxSizing: 'border-box'
@@ -136,7 +136,7 @@ function renderEventsItems(events: Event[], date:Date) {
 
 function getDayViewItemStyle(item: DayViewItem) {
   return {
-    height: `calc(${toPercent(item.height)} - 5px)`,
+    height: `calc(${toPercent(item.height)} - 3px)`,
     width: `calc(${toPercent(item.width)} - 5px)`,
     top: toPercent(item.y),
     left: toPercent(item.x),
@@ -163,7 +163,8 @@ function renderNewEvent(date: Date, newEvent, onCreateEvent: () => void) {
 				boxSizing: 'border-box',
 				background: '#049BE5',
 				color: 'white',
-				fontSize: '20px'
+				fontSize: '20px',
+				opacity: '0.6'
 			}}
 			onClick={onCreateEvent}>
 			<div style={{

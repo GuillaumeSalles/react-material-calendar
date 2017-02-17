@@ -72,8 +72,8 @@ class MultipleDaysView extends React.Component {
           left: `${(100 / this.props.dates.length) * i}%`,
           width: `${100 / this.props.dates.length}%`,
           height: '70px',
-          borderLeft: 'solid 1px #E0E0E0',
-          borderBottom: 'solid 1px #E0E0E0',
+          borderLeft: 'solid 1px #F3F3F3',
+          borderBottom: 'solid 1px #F3F3F3',
           paddingLeft: '5px'
         }} 
         date={date}/>
@@ -89,7 +89,7 @@ class MultipleDaysView extends React.Component {
           height: '100%', 
           left: `${(100 / this.props.dates.length) * i}%`,
           width: `${100 / this.props.dates.length}%`,
-          borderLeft: 'solid 1px #E0E0E0'
+          borderLeft: 'solid 1px #F3F3F3'
         }}>
         {
 					renderDayEvents({ 
