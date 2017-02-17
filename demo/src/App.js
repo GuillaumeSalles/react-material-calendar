@@ -8,7 +8,8 @@ const itemStyle = {
   background: '#049BE5',
   padding: '0 2.5px',
   cursor: 'pointer',
-  borderRadius: '2px'
+  borderRadius: '2px',
+  fontSize: '12px'
 }
 
 const itemStyle2 = {
@@ -16,7 +17,8 @@ const itemStyle2 = {
   background: '#33B679',
   padding: '0 2.5px',
   cursor: 'pointer',
-  borderRadius: '2px'
+  borderRadius: '2px',
+  fontSize: '12px'
 }
 
 const itemStyle3 = {
@@ -24,7 +26,8 @@ const itemStyle3 = {
   background: '#E67B73',
   padding: '0 2.5px',
   cursor: 'pointer',
-  borderRadius: '2px'
+  borderRadius: '2px',
+  fontSize: '12px'
 }
 
 class App extends Component {

@@ -8,7 +8,8 @@ function getHourStyle(i) {
 		top: `calc(${(100 / 24) * i}% - 10px)`,
 		left: '15px',
 		position: 'absolute',
-		color: '#525252'
+		color: '#525252',
+		fontSize: '12px'
 	};
 }
 

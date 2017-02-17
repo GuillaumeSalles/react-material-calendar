@@ -27,12 +27,12 @@ type Props = {
 const DayHeader = (props: Props) => {
   return (
     <div style={Object.assign(props.style, { color: getHeaderColor(props.date)})}>
-      <div style={{ fontSize: '30px' }}>
+      <div style={{ fontSize: '22px' }}>
         {
           dayFormatter.format(props.date)
         }
       </div>
-      <div>
+      <div style={{ fontSize: '12px' }}>
         {
           weekDayFormatter.format(props.date)
         }

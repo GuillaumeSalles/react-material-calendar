@@ -18,6 +18,9 @@ type Props = {
 	}
 }
 
+const firstColumnWidth = '40px';
+const headerHeight = '60px';
+
 class MultipleDaysView extends React.Component {
   scrollViewer: any;
   props: Props;
@@ -25,9 +28,17 @@ class MultipleDaysView extends React.Component {
   render() {
     return (
       <div style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ height: '70px', position: 'absolute', left: '0', top: '0', width: '50px', borderBottom: 'solid 1px #F3F3F3' }}>
+        <div style={{ 
+          height: headerHeight, 
+          position: 'absolute', 
+          left: '0', 
+          top: '0', 
+          width: firstColumnWidth, 
+          borderBottom: 'solid 1px #F3F3F3',
+          boxSizing: 'border-box'
+        }}>
         </div>
-        <div style={{ height: '70px', position: 'absolute', right: '0', left: '50px', top: '0' }}>
+        <div style={{ height: headerHeight, position: 'absolute', right: '0', left: firstColumnWidth, top: '0' }}>
           {
             this.renderDaysHeader(this.props.dates)
           }
@@ -41,11 +52,11 @@ class MultipleDaysView extends React.Component {
 					}}
 					onTouchStart={(e) => setTimeout(() => this.props.onScrollChange(this.scrollViewer.scrollTop),100)}
           style={{ 
-            height: 'calc(100% - 70px)',
+            height: `calc(100% - ${headerHeight})`,
             position: 'absolute', 
             left: '0', 
             right: '0', 
-            top: '70px', 
+            top: headerHeight, 
             bottom: '0',
             overflowY: this.props.isScrollDisable ? 'hidden' : 'auto',
             overflowX: 'hidden'
@@ -55,7 +66,7 @@ class MultipleDaysView extends React.Component {
               verticalHours()
             }
           </div>
-          <div style={{ height: '1700px', position: 'absolute', right: '0', left: '50px', top: '0' }}>
+          <div style={{ height: '1700px', position: 'absolute', right: '0', left: firstColumnWidth, top: '0' }}>
             {
               this.renderDays(this.props.dates)
             }
@@ -73,10 +84,11 @@ class MultipleDaysView extends React.Component {
           position: 'absolute',
           left: `${(100 / this.props.dates.length) * i}%`,
           width: `${100 / this.props.dates.length}%`,
-          height: '70px',
+          height: headerHeight,
           borderLeft: 'solid 1px #F3F3F3',
           borderBottom: 'solid 1px #F3F3F3',
-          paddingLeft: '5px'
+          padding: '5px',
+          boxSizing: 'border-box'
         }} 
         date={date}/>
     ));
