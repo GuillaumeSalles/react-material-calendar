@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Scheduler, Event } from '../src/';
+import { Scheduler, Event } from '../../src/';
 
 const itemStyle = {
   color: 'white',
@@ -21,7 +21,7 @@ const itemStyle2 = {
 
 const itemStyle3 = {
   color: 'white',
-  background: '#33B679',
+  background: '#E67B73',
   padding: '0 2.5px',
   cursor: 'pointer',
   borderRadius: '2px'
