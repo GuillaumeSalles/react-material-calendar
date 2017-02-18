@@ -70,7 +70,6 @@ class Scheduler extends Component {
 	}
 
 	render() {
-		console.log(this.state);
 		return (
 			<VirtualizeSwipeableViews
 				style={{ position: 'relative', height: '100%', width: '100%' }}
