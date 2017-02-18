@@ -26,7 +26,7 @@ class DayView extends React.Component {
 
 	render() {
 		return (
-			<div style={{ height: '100%', position: 'relative', overflowY: 'hidden' }}>
+			<div style={{ height: '100%', width: '100%', position: 'relative', overflowY: 'hidden' }}>
 				<div 
 					ref={elem => {
 						if(elem != null) {
