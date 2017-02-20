@@ -45,11 +45,7 @@ class App extends Component {
 
   render() {
     return (
-      <Scheduler
-        date={this.state.date}
-        onDateChange={this.setDate}
-        onCreateEvent={(start,end) => console.log(start.toISOString() + end.toISOString())}
-        mode={'day'}>
+      <Scheduler>
         <Event 
           key={0}
           start={new Date(2017,1,10,10,0,0)}

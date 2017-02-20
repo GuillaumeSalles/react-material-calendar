@@ -15,7 +15,7 @@ const referenceDate = new Date(2017,1,1);
 type Props = {
 	date?: Date,
 	onDateChange?: (date: Date) => void,
-	mode?: 'day' | 'week' | '3days',
+	mode?: 'day' | '3days' | 'week',
 	onCreateEvent?: (start: Date, end: Date) => void
 }
 
@@ -108,7 +108,7 @@ class Scheduler extends Component {
 	}
 
 	slideRenderer = (slide: { key: number, index: number }) => {
-		if(this.props.mode === 'day') {
+		if(this.getMode() === 'day') {
 			return (
 				<div key={slide.key} style={{ position: 'relative', height: '100%', width: '100%' }}>
 					<DayView 
@@ -132,7 +132,7 @@ class Scheduler extends Component {
 				<MultipleDaysView 
 					onScrollChange={this.onScrollChange} 
 					scrollPosition={this.state.scrollPosition}
-					dates={this.props.mode === 'week' ? this.getWeekDates(slide.index) : this.getThreeDaysDates(slide.index)}
+					dates={this.getMode() === 'week' ? this.getWeekDates(slide.index) : this.getThreeDaysDates(slide.index)}
 					isScrollDisable={this.state.isSwiping}
 					onHourDividerClick={this.onSchedulerClick}
 					newEvent={this.state.newEvent}
