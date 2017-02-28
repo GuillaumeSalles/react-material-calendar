@@ -1,5 +1,5 @@
 {
-  "name": "react-scheduler",
+  "name": "react-material-calendar",
   "version": "0.1.0",
   "description": "React component inspired by google calendar app",
   "main": "lib/index.js",
@@ -9,6 +9,9 @@
   },
   "keywords": [
     "react",
+    "calendar",
+    "material",
+    "google",
     "scheduler",
     "mobile",
     "touch"

@@ -38,7 +38,7 @@ function getTimeOrDefault(date: ?Date): number {
 	return date == null ? 0 : date.getTime();
 }
 
-class Scheduler extends Component {
+class Calendar extends Component {
 	props: Props;
 	static propTypes = {
 		date: React.PropTypes.instanceOf(Date),
@@ -117,7 +117,7 @@ class Scheduler extends Component {
 						scrollPosition={this.state.scrollPosition}
 						date={addDays(referenceDate, slide.index)}
 						isScrollDisable={this.state.isSwiping}
-						onHourDividerClick={this.onSchedulerClick}
+						onHourDividerClick={this.onCalendarClick}
 						newEvent={this.state.newEvent}
 						onCreateEvent={this.onCreateEvent}>
 						{
@@ -135,7 +135,7 @@ class Scheduler extends Component {
 					scrollPosition={this.state.scrollPosition}
 					dates={this.getMode() === 'week' ? this.getWeekDates(slide.index) : this.getThreeDaysDates(slide.index)}
 					isScrollDisable={this.state.isSwiping}
-					onHourDividerClick={this.onSchedulerClick}
+					onHourDividerClick={this.onCalendarClick}
 					newEvent={this.state.newEvent}
 					onCreateEvent={this.onCreateEvent}>
 					{
@@ -168,7 +168,7 @@ class Scheduler extends Component {
 		this.setState({ scrollPosition: scrollPosition });
 	}
 
-	onSchedulerClick = (start: Date, end: Date) => {
+	onCalendarClick = (start: Date, end: Date) => {
 		if(this.props.onCreateEvent != null) {
 			this.setState({ newEvent : { start: start, end: end }});
 		}
@@ -184,9 +184,9 @@ class Scheduler extends Component {
 	}
 }
 
-Scheduler.propTypes = {
+Calendar.propTypes = {
 	date: React.PropTypes.instanceOf(Date),
 
 }
 
-export default Scheduler;
+export default Calendar;

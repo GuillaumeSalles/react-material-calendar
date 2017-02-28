@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Scheduler, Event } from '../../src/';
+import { Calendar, Event } from '../../src/';
 
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -20,7 +20,7 @@ type EventData = {
   title: string;
 }
 
-type SchedulerMode = 'day' | '3days' | 'week';
+type CalendarMode = 'day' | '3days' | 'week';
 
 var GithubIcon = () => (
   <svg version="1.1" id="Capa_1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 438.549 438.549">
@@ -61,7 +61,7 @@ function addTime(date: Date, hours: number, minutes: ?number): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes == null ? 0 : minutes);
 }
 
-function getIcon(mode: SchedulerMode) {
+function getIcon(mode: CalendarMode) {
   switch(mode) {
     case 'day':
       return <DayIcon/>;
@@ -74,7 +74,7 @@ function getIcon(mode: SchedulerMode) {
 class App extends Component {
   state: {
     date: Date;
-    mode: SchedulerMode;
+    mode: CalendarMode;
     isOpen: boolean;
     events: EventData[];
   }
@@ -165,14 +165,14 @@ class App extends Component {
         <AppBar 
           style={{ background: 'white' }}
           titleStyle={{ color: 'black' }}
-          title={'react-mobile-calendar'}
+          title={'react-material-calendar'}
           iconElementLeft={<IconButton onTouchTap={this.toggleMenu}><MenuIcon color='black' /></IconButton>}
           iconElementRight={
             <IconButton iconStyle={{ fill: 'black' }}>
               <GithubIcon/>
             </IconButton>
           }/>
-        <Scheduler
+        <Calendar
           style={{ height: '100%', width: '100%', position: 'relative' }}
           date={this.state.date}
           onDateChange={this.setDate}
@@ -189,7 +189,7 @@ class App extends Component {
                 />
             ))
           }
-        </Scheduler>
+        </Calendar>
       </div>
     );
   }
@@ -198,7 +198,7 @@ class App extends Component {
     this.setState({ date: date });
   }
 
-  changeMode = (mode: SchedulerMode) => {
+  changeMode = (mode: CalendarMode) => {
     this.setState({ mode: mode, isOpen: false});
   }
 
