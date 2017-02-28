@@ -55,7 +55,7 @@ class Scheduler extends Component {
 
 		this.unControlledDate= new Date();
 		this.state = {
-			scrollPosition: 500,
+			scrollPosition: 630,
 			isSwiping: false,
 			newEvent: null,
 		};
@@ -72,7 +72,8 @@ class Scheduler extends Component {
 	render() {
 		return (
 			<VirtualizeSwipeableViews
-				style={{ position: 'relative', height: '100%', width: '100%' }}
+				key={this.getMode()}
+				style={this.props.style}
 				slideStyle={{ height: '100%' }}
 				containerStyle={{ height: '100%', willChange: 'transform' }}
 				index={this.getIndex()}

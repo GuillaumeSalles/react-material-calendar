@@ -4,7 +4,10 @@ import React from 'react';
 
 type Props = {
   start: Date,
-  end: Date
+  end: Date,
+  style?: any,
+  onClick? : () => void,
+  title?: string
 }
 
 class Event extends React.Component {
@@ -12,7 +15,13 @@ class Event extends React.Component {
 
   render() {
     return (
-      <div {...this.props}></div>
+      <div 
+        onClick={this.props.onClick}
+        style={this.props.style}>
+        {
+          this.props.title
+        }
+      </div>
     )
   }  
 }

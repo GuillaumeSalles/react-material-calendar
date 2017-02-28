@@ -161,7 +161,14 @@ function getDayViewItemStyle(item: DayViewItem) {
     left: toPercent(item.x),
     position: 'absolute',
     boxSizing: 'border-box',
-    minHeight: '10px'
+    minHeight: '10px',
+		//Styling
+		padding: '0 2.5px',
+		cursor: 'pointer',
+		borderRadius: '2px',
+		fontSize: '12px',
+		color: item.event.props.color ? item.event.props.color : 'white',
+		background: item.event.props.background ? item.event.props.background : '#049BE5'
   };
 }
 
