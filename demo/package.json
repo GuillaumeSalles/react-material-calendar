@@ -23,7 +23,7 @@
   },
   "scripts": {
     "build": "webpack --config=./prod-webpack.config.js",
-    "start": "webpack-dev-server --open --output-public-path=/dist/",
+    "start": "webpack-dev-server --open",
     "flow": "flow"
   }
 }

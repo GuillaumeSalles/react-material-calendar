@@ -168,7 +168,9 @@ class App extends Component {
           title={'react-material-calendar'}
           iconElementLeft={<IconButton onTouchTap={this.toggleMenu}><MenuIcon color='black' /></IconButton>}
           iconElementRight={
-            <IconButton iconStyle={{ fill: 'black' }}>
+            <IconButton 
+              onTouchTap={() => window.location = 'https://github.com/GuillaumeSalles/react-material-calendar'} 
+              iconStyle={{ fill: 'black' }}>
               <GithubIcon/>
             </IconButton>
           }/>
