@@ -10,13 +10,26 @@ import DayView from './DayView';
 import MultipleDaysView from './MultipleDaysView';
 import { addDays, diffDays, startOfDay } from './dateUtils';
 
+type Children = ?(Element | Element[]);
+
+function getEventsFromChildren(children: Children) {
+	if(children == null) {
+		return [];
+	} else if (!Array.isArray(children)) {
+		return [children];
+	} else {
+		return children;
+	}
+}
+
 const referenceDate = new Date(2017,1,1);
 
 type Props = {
 	date?: Date,
 	onDateChange?: (date: Date) => void,
 	mode?: 'day' | '3days' | 'week',
-	onCreateEvent?: (start: Date, end: Date) => void
+	onCreateEvent?: (start: Date, end: Date) => void,
+	children: Children
 }
 
 type State = {
@@ -121,7 +134,7 @@ class Calendar extends Component {
 						newEvent={this.state.newEvent}
 						onCreateEvent={this.onCreateEvent}>
 						{
-							this.props.children
+							getEventsFromChildren(this.props.children)
 						}
 					</DayView>
 				</div>
@@ -139,7 +152,7 @@ class Calendar extends Component {
 					newEvent={this.state.newEvent}
 					onCreateEvent={this.onCreateEvent}>
 					{
-						this.props.children
+						getEventsFromChildren(this.props.children)
 					}
 				</MultipleDaysView>
 			</div>
@@ -182,11 +195,6 @@ class Calendar extends Component {
 			});
 		}
 	}
-}
-
-Calendar.propTypes = {
-	date: React.PropTypes.instanceOf(Date),
-
 }
 
 export default Calendar;
