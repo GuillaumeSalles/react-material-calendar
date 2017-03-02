@@ -1,4 +1,5 @@
 // @flow
+import type { EventElement } from './types';
 
 import React, { Component } from 'react';
 
@@ -10,9 +11,7 @@ import DayView from './DayView';
 import MultipleDaysView from './MultipleDaysView';
 import { addDays, diffDays, startOfDay } from './dateUtils';
 
-type Children = ?(Element | Element[]);
-
-function getEventsFromChildren(children: Children) {
+function getEventsFromChildren(children?: EventElement | EventElement[]) {
 	if(children == null) {
 		return [];
 	} else if (!Array.isArray(children)) {
@@ -29,7 +28,8 @@ type Props = {
 	onDateChange?: (date: Date) => void,
 	mode?: 'day' | '3days' | 'week',
 	onCreateEvent?: (start: Date, end: Date) => void,
-	children: Children
+	children?: EventElement | EventElement[],
+	style?: any
 }
 
 type State = {
@@ -132,11 +132,8 @@ class Calendar extends Component {
 						isScrollDisable={this.state.isSwiping}
 						onHourDividerClick={this.onCalendarClick}
 						newEvent={this.state.newEvent}
-						onCreateEvent={this.onCreateEvent}>
-						{
-							getEventsFromChildren(this.props.children)
-						}
-					</DayView>
+						onCreateEvent={this.onCreateEvent}
+						children={getEventsFromChildren(this.props.children)}/>
 				</div>
 			);
 		}
@@ -150,10 +147,8 @@ class Calendar extends Component {
 					isScrollDisable={this.state.isSwiping}
 					onHourDividerClick={this.onCalendarClick}
 					newEvent={this.state.newEvent}
-					onCreateEvent={this.onCreateEvent}>
-					{
-						getEventsFromChildren(this.props.children)
-					}
+					onCreateEvent={this.onCreateEvent}
+					children={getEventsFromChildren(this.props.children)}>
 				</MultipleDaysView>
 			</div>
 		);

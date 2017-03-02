@@ -1,4 +1,5 @@
 // @flow
+import type { EventElement } from './types';
 
 import React from 'react';
 import verticalHours from './verticalHours';
@@ -15,7 +16,8 @@ type Props = {
 	newEvent: ?{
 		start: Date,
 		end: Date
-	}
+	},
+  children: EventElement[]
 }
 
 const firstColumnWidth = '40px';

@@ -5,7 +5,7 @@ import Calendar from './Calendar';
 import Event from './Event';
 import { mount, shallow } from 'enzyme';
 
-test('Calendar without props should render', () => {
+test('Calendar without props should be rendered', () => {
   mount(
     <Calendar />
   );

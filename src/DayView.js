@@ -1,4 +1,6 @@
 // @flow
+import type { EventElement } from './types';
+
 import React from 'react';
 import verticalHours from './verticalHours';
 import renderDayEvents from './DayEvents';
@@ -10,7 +12,7 @@ type Props = {
 	date: Date;
 	scrollPosition: number;
 	onScrollChange: (number) => void;
-	children: Event[],
+	children: EventElement[],
 	isScrollDisable: boolean,
 	onHourDividerClick: (start: Date, end: Date) => void,
 	onCreateEvent: () => void,
@@ -59,7 +61,7 @@ class DayView extends React.Component {
 		);
 	}
 
-	renderEventsContainer(events: Event[], date: Date) {
+	renderEventsContainer(events: EventElement[], date: Date) {
 		return (
 			<div 
 				key="eventsContainer" 

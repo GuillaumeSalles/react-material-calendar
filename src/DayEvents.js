@@ -1,15 +1,9 @@
 // @flow
+import type { EventElement } from './types';
+
 import React from 'react';
 import { addDays } from './dateUtils';
 import { every } from './utils';
-
-type Event = {
-	props: {
-		start: Date,
-		end: Date,
-		style?: any
-	}
-}
 
 type Column = {
 	column: number,
@@ -21,7 +15,7 @@ type DayViewItem = {
 	y: number,
 	height: number,
 	width: number,
-	event: Event		
+	event: EventElement		
 }
 
 const msInDay = 1000 * 60 * 60 * 24;
@@ -31,7 +25,7 @@ function getEventsBetweenDates(events, start, end) {
 		.filter(event => event.props.start < end && event.props.end > start);
 }
 
-function getEventColumn(event: Event, columnsLastDate: Date[]): number {
+function getEventColumn(event: EventElement, columnsLastDate: Date[]): number {
 	for (let i = 0; i < columnsLastDate.length; i++) {
 		if (event.props.start >= columnsLastDate[i]) {
 			return i;
@@ -40,7 +34,7 @@ function getEventColumn(event: Event, columnsLastDate: Date[]): number {
 	return columnsLastDate.length;
 }
 
-function getEventsColumns(events: Event[]) : Column[] {
+function getEventsColumns(events: EventElement[]) : Column[] {
 	let columnsLastDate = [];
 	const results = [];
 	let nextOverIndex = 0;
@@ -71,7 +65,7 @@ function getEventsColumns(events: Event[]) : Column[] {
 	return results;
 }
 
-function getEventItemY(event: Event, date: Date) {
+function getEventItemY(event: EventElement, date: Date) {
 	if(event.props.start < date) {
 		return 0;
 	}
@@ -79,7 +73,7 @@ function getEventItemY(event: Event, date: Date) {
 	return ((event.props.start.getTime() - date.getTime()) / msInDay);
 }
 
-function getEventItemHeight(event: Event, date: Date) {
+function getEventItemHeight(event: EventElement, date: Date) {
 	var maxedDate = event.props.end.getTime() > (date.getTime() + msInDay) ?
 		date.getTime() + msInDay :
 		event.props.end.getTime();
@@ -88,7 +82,7 @@ function getEventItemHeight(event: Event, date: Date) {
 	return (maxedDate - minDate) / msInDay;
 }
 
-function eventsToDayViewItems(events: Event[], date: Date) {
+function eventsToDayViewItems(events: EventElement[], date: Date) {
 	const sortedEvents = events.sort((a, b) => a.props.start.getTime() - b.props.start.getTime());
 	const eventsColumn = getEventsColumns(sortedEvents);
 	return sortedEvents
@@ -143,7 +137,7 @@ function renderHoursDividers(date: Date, onHourDividerClick: (start: Date, end: 
   return dividers;
 }
 
-function renderEventsItems(events: Event[], date:Date) {
+function renderEventsItems(events: EventElement[], date:Date) {
   var items = eventsToDayViewItems(getEventsBetweenDates(events, date, addDays(date,1)), date);
   return items
     .map(item => {
@@ -206,7 +200,7 @@ function renderNewEvent(date: Date, newEvent, onCreateEvent: () => void) {
 }
 
 type Props = {
-	events: Event[], 
+	events: EventElement[], 
 	date: Date, 
 	newEvent: ?{
 		start: Date,

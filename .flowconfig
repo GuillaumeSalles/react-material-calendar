@@ -1,6 +1,7 @@
 [ignore]
 
 .*/node_modules/fbjs/*
+.*/node_modules/enzyme-matcher/*
 
 [libs]
 
