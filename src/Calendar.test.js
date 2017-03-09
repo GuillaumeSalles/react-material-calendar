@@ -33,3 +33,17 @@ test('Calendar with 2 events should be rendered', () => {
     </Calendar>
   )
 });
+
+test('Calendar with 3days mode should be rendered', () => {
+  mount(
+    <Calendar
+      mode='3days' />
+  );
+});
+
+test('Calendar with week mode should be rendered', () => {
+  mount(
+    <Calendar
+      mode='week' />
+  );
+});
