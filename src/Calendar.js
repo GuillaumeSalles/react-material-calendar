@@ -90,7 +90,8 @@ class Calendar extends Component {
 				slideStyle={{ height: '100%' }}
 				containerStyle={{ height: '100%', willChange: 'transform' }}
 				index={this.getIndex()}
-				overscanSlideCount={1}
+				overscanSlideAfter={1}
+				overscanSlideBefore={1}
 				slideRenderer={this.slideRenderer}
 				onChangeIndex={this.onChangeIndex}
 				onSwitching={this.onSwitching}/>
