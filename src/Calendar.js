@@ -110,7 +110,7 @@ class Calendar extends Component {
 	getMode = () => this.props.mode == null ? 'day' : this.props.mode;
 
 	getIndex = () => {
-		return diffDays(startOfDay(this.getDate()), referenceDate) / modeNbOfDaysMap[this.getMode()];
+		return Math.round(diffDays(startOfDay(this.getDate()), referenceDate) / modeNbOfDaysMap[this.getMode()]);
 	}
 
 	onChangeIndex = (index: number, indexLatest: number) => {
